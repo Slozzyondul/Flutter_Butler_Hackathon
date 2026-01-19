@@ -1,0 +1,34 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Change this to your primary branch name if it's different
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+
+      - name: Install dependencies
+        run: |
+          cd flutter_butler_hackathon_client && flutter pub get
+          cd ../flutter_butler_hackathon_flutter && flutter pub get
+
+      - name: Build Web
+        run: |
+          cd flutter_butler_hackathon_flutter
+          flutter build web --release --base-href "/Flutter_Butler_Hackathon/"
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./flutter_butler_hackathon_flutter/build/web
