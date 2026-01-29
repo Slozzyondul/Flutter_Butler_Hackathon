@@ -8,9 +8,7 @@
 # For full documentation, visit: https://docs.serverpod.cloud
 
 project:
-  projectId: "butler"
+  projectId: butler
   scripts:
-    pre_deploy:
-      - serverpod generate
-      - serverpod run flutter_build
+    pre_deploy: []
     post_deploy: []
