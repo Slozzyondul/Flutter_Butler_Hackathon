@@ -1,0 +1,16 @@
+SERVERPOD version: 3.2.2, dart: 3.10.7 (stable) (Tue Dec 23 00:01:57 2025 -0800) on "linux_x64", time: 2026-01-29 07:03:18.115758Z
+runMode: development
+serverId: default
+role: monolith
+loggingMode: normal
+applyMigrations: false
+applyRepairMigration: false
+Invalid serviceSecret in password file, Insights server disabled.SERVERPOD initialized, time: 2026-01-29 07:03:18.455082Z
+Unhandled exception:
+PasswordNotFoundException: jwtHmacSha512PrivateKey was not found in config/passwords.yaml or the environment variable SERVERPOD_PASSWORD_jwtHmacSha512PrivateKey
+#0      GetPasswordsExtension.getPasswordOrThrow (package:serverpod_auth_core_server/src/common/utils/get_passwords_extension.dart:12:7)
+#1      new JwtConfigFromPasswords (package:serverpod_auth_core_server/src/jwt/business/jwt_config.dart:206:33)
+#2      run (package:flutter_butler_hackathon_server/server.dart:23:7)
+#3      main (file:///home/solo/documents/hackathon/Flutter_Butler_Hackathon/flutter_butler_hackathon_server/bin/main.dart:6:3)
+#4      _delayEntrypointInvocation.<anonymous closure> (dart:isolate-patch/isolate_patch.dart:312:33)
+#5      _RawReceivePort._handleMessage (dart:isolate-patch/isolate_patch.dart:193:12)
