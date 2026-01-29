@@ -8,3 +8,8 @@ emailIdp:
   - finishPasswordReset:
 jwtRefresh:
   - refreshAccessToken:
+tank:
+  - addReading:
+  - getLatestReading:
+  - getConfiguration:
+  - updateConfiguration:

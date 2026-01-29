@@ -16,7 +16,11 @@ import 'package:serverpod_client/serverpod_client.dart' as _i2;
 import 'dart:async' as _i3;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
     as _i4;
-import 'protocol.dart' as _i5;
+import 'package:flutter_butler_hackathon_client/src/protocol/tank_reading.dart'
+    as _i5;
+import 'package:flutter_butler_hackathon_client/src/protocol/tank_configuration.dart'
+    as _i6;
+import 'protocol.dart' as _i7;
 
 /// By extending [EmailIdpBaseEndpoint], the email identity provider endpoints
 /// are made available on the server and enable the corresponding sign-in widget
@@ -232,6 +236,42 @@ class EndpointJwtRefresh extends _i4.EndpointRefreshJwtTokens {
   );
 }
 
+/// {@category Endpoint}
+class EndpointTank extends _i2.EndpointRef {
+  EndpointTank(_i2.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'tank';
+
+  _i3.Future<void> addReading(_i5.TankReading reading) =>
+      caller.callServerEndpoint<void>(
+        'tank',
+        'addReading',
+        {'reading': reading},
+      );
+
+  _i3.Future<_i5.TankReading?> getLatestReading() =>
+      caller.callServerEndpoint<_i5.TankReading?>(
+        'tank',
+        'getLatestReading',
+        {},
+      );
+
+  _i3.Future<_i6.TankConfiguration> getConfiguration() =>
+      caller.callServerEndpoint<_i6.TankConfiguration>(
+        'tank',
+        'getConfiguration',
+        {},
+      );
+
+  _i3.Future<void> updateConfiguration(_i6.TankConfiguration config) =>
+      caller.callServerEndpoint<void>(
+        'tank',
+        'updateConfiguration',
+        {'config': config},
+      );
+}
+
 class Modules {
   Modules(Client client) {
     serverpod_auth_idp = _i1.Caller(client);
@@ -263,7 +303,7 @@ class Client extends _i2.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i5.Protocol(),
+         _i7.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,
@@ -274,6 +314,7 @@ class Client extends _i2.ServerpodClientShared {
        ) {
     emailIdp = EndpointEmailIdp(this);
     jwtRefresh = EndpointJwtRefresh(this);
+    tank = EndpointTank(this);
     modules = Modules(this);
   }
 
@@ -281,12 +322,15 @@ class Client extends _i2.ServerpodClientShared {
 
   late final EndpointJwtRefresh jwtRefresh;
 
+  late final EndpointTank tank;
+
   late final Modules modules;
 
   @override
   Map<String, _i2.EndpointRef> get endpointRefLookup => {
     'emailIdp': emailIdp,
     'jwtRefresh': jwtRefresh,
+    'tank': tank,
   };
 
   @override

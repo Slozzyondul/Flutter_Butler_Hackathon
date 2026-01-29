@@ -13,10 +13,15 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../auth/email_idp_endpoint.dart' as _i2;
 import '../auth/jwt_refresh_endpoint.dart' as _i3;
-import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
-    as _i4;
-import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
+import '../endpoints/tank_endpoint.dart' as _i4;
+import 'package:flutter_butler_hackathon_server/src/generated/tank_reading.dart'
     as _i5;
+import 'package:flutter_butler_hackathon_server/src/generated/tank_configuration.dart'
+    as _i6;
+import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
+    as _i7;
+import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
+    as _i8;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -32,6 +37,12 @@ class Endpoints extends _i1.EndpointDispatch {
         ..initialize(
           server,
           'jwtRefresh',
+          null,
+        ),
+      'tank': _i4.TankEndpoint()
+        ..initialize(
+          server,
+          'tank',
           null,
         ),
     };
@@ -229,9 +240,72 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
-    modules['serverpod_auth_idp'] = _i4.Endpoints()
+    connectors['tank'] = _i1.EndpointConnector(
+      name: 'tank',
+      endpoint: endpoints['tank']!,
+      methodConnectors: {
+        'addReading': _i1.MethodConnector(
+          name: 'addReading',
+          params: {
+            'reading': _i1.ParameterDescription(
+              name: 'reading',
+              type: _i1.getType<_i5.TankReading>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['tank'] as _i4.TankEndpoint).addReading(
+                session,
+                params['reading'],
+              ),
+        ),
+        'getLatestReading': _i1.MethodConnector(
+          name: 'getLatestReading',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['tank'] as _i4.TankEndpoint)
+                  .getLatestReading(session),
+        ),
+        'getConfiguration': _i1.MethodConnector(
+          name: 'getConfiguration',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['tank'] as _i4.TankEndpoint)
+                  .getConfiguration(session),
+        ),
+        'updateConfiguration': _i1.MethodConnector(
+          name: 'updateConfiguration',
+          params: {
+            'config': _i1.ParameterDescription(
+              name: 'config',
+              type: _i1.getType<_i6.TankConfiguration>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['tank'] as _i4.TankEndpoint).updateConfiguration(
+                    session,
+                    params['config'],
+                  ),
+        ),
+      },
+    );
+    modules['serverpod_auth_idp'] = _i7.Endpoints()
       ..initializeEndpoints(server);
-    modules['serverpod_auth_core'] = _i5.Endpoints()
+    modules['serverpod_auth_core'] = _i8.Endpoints()
       ..initializeEndpoints(server);
   }
 }

@@ -1,0 +1,5 @@
+class: TankConfiguration
+table: tank_configuration
+fields:
+  maxHeight: double
+  alarmThreshold: double

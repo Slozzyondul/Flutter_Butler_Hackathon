@@ -16,6 +16,10 @@ import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
     as _i3;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _i4;
+import 'tank_configuration.dart' as _i5;
+import 'tank_reading.dart' as _i6;
+export 'tank_configuration.dart';
+export 'tank_reading.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
   Protocol._();
@@ -25,6 +29,100 @@ class Protocol extends _i1.SerializationManagerServer {
   static final Protocol _instance = Protocol._();
 
   static final List<_i2.TableDefinition> targetTableDefinitions = [
+    _i2.TableDefinition(
+      name: 'tank_configuration',
+      dartName: 'TankConfiguration',
+      schema: 'public',
+      module: 'flutter_butler_hackathon',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'tank_configuration_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'maxHeight',
+          columnType: _i2.ColumnType.doublePrecision,
+          isNullable: false,
+          dartType: 'double',
+        ),
+        _i2.ColumnDefinition(
+          name: 'alarmThreshold',
+          columnType: _i2.ColumnType.doublePrecision,
+          isNullable: false,
+          dartType: 'double',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'tank_configuration_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
+      name: 'tank_reading',
+      dartName: 'TankReading',
+      schema: 'public',
+      module: 'flutter_butler_hackathon',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'tank_reading_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'reading',
+          columnType: _i2.ColumnType.doublePrecision,
+          isNullable: false,
+          dartType: 'double',
+        ),
+        _i2.ColumnDefinition(
+          name: 'timestamp',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _i2.ColumnDefinition(
+          name: 'sensorError',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'tank_reading_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+      ],
+      managed: true,
+    ),
     ..._i3.Protocol.targetTableDefinitions,
     ..._i4.Protocol.targetTableDefinitions,
     ..._i2.Protocol.targetTableDefinitions,
@@ -57,6 +155,18 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
 
+    if (t == _i5.TankConfiguration) {
+      return _i5.TankConfiguration.fromJson(data) as T;
+    }
+    if (t == _i6.TankReading) {
+      return _i6.TankReading.fromJson(data) as T;
+    }
+    if (t == _i1.getType<_i5.TankConfiguration?>()) {
+      return (data != null ? _i5.TankConfiguration.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i6.TankReading?>()) {
+      return (data != null ? _i6.TankReading.fromJson(data) : null) as T;
+    }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
@@ -71,6 +181,8 @@ class Protocol extends _i1.SerializationManagerServer {
 
   static String? getClassNameForType(Type type) {
     return switch (type) {
+      _i5.TankConfiguration => 'TankConfiguration',
+      _i6.TankReading => 'TankReading',
       _ => null,
     };
   }
@@ -87,6 +199,12 @@ class Protocol extends _i1.SerializationManagerServer {
       );
     }
 
+    switch (data) {
+      case _i5.TankConfiguration():
+        return 'TankConfiguration';
+      case _i6.TankReading():
+        return 'TankReading';
+    }
     className = _i2.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod.$className';
@@ -107,6 +225,12 @@ class Protocol extends _i1.SerializationManagerServer {
     var dataClassName = data['className'];
     if (dataClassName is! String) {
       return super.deserializeByClassName(data);
+    }
+    if (dataClassName == 'TankConfiguration') {
+      return deserialize<_i5.TankConfiguration>(data['data']);
+    }
+    if (dataClassName == 'TankReading') {
+      return deserialize<_i6.TankReading>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);
@@ -142,6 +266,12 @@ class Protocol extends _i1.SerializationManagerServer {
       if (table != null) {
         return table;
       }
+    }
+    switch (t) {
+      case _i5.TankConfiguration:
+        return _i5.TankConfiguration.t;
+      case _i6.TankReading:
+        return _i6.TankReading.t;
     }
     return null;
   }

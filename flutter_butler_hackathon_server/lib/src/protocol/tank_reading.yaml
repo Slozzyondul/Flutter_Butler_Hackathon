@@ -1,0 +1,6 @@
+class: TankReading
+table: tank_reading
+fields:
+  reading: double
+  timestamp: DateTime
+  sensorError: bool
