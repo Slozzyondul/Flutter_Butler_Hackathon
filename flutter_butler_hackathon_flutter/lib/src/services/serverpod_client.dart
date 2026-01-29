@@ -19,7 +19,7 @@ Future<String> getServerUrl() async {
   if (kIsWeb) {
     // If hosted on GitHub Pages or similar, we should use a public URL.
     // Replace with your actual production URL when deployed.
-    const productionUrl = 'https://your-api-domain.com/';
+    const productionUrl = 'https://butler.api.serverpod.space/';
 
     // For local development on web
     if (Uri.base.host == 'localhost' || Uri.base.host == '127.0.0.1') {
