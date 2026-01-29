@@ -25077,7 +25077,7 @@ arb(){var s=0,r=A.M(t.N),q
 var $async$arb=A.N(function(a,b){if(a===1)return A.J(b,r)
 for(;;)switch(s){case 0:if(A.MR().gkU()==="localhost"||A.MR().gkU()==="127.0.0.1"){q="http://localhost:8080/"
 s=1
-break}q="https://your-api-domain.com/"
+break}q="https://butler.api.serverpod.space/"
 s=1
 break
 case 1:return A.K(q,r)}})
